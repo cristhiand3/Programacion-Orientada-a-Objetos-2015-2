@@ -13,7 +13,6 @@ public class Ahorcado {
 	}
 	public Ahorcado(int x){
 		System.out.print("x");
-		this();
 	}
 
 	public static void main(String[] args) throws FileNotFoundException, IOException {
@@ -40,34 +39,30 @@ public class Ahorcado {
 			System.out.print(" "+ingresos[i]);
 		System.out.print(" } Err=0 \t ->");
 		
-		int x=0,Underline=0,Errores=0,FlagWin=0;
+		int x=0,Underline=0,Errores=0,FlagWin=0,ierr=0;
 		String aux;	char[] v;
 		while (x!=(aCaracteres.length+ErroresPermitidos)){
 			aux=entrada.next();		//Captura la letra Ingresada
-			System.out.println("->->AUX: ->"+aux);
 			v=aux.toCharArray();	//Letra ingresada a char[]
 			ingresos[x] = v[0];		//Guarda la letra ingresada
-			System.out.println("->->ingre: ->"+ingresos[x]+", "+x+" ->->V[0] "+v[0]);
-			
-			x++;/**/Errores++;/*#Errores*/
-			FlagWin=0;
-			System.out.println("INGRESOS:");
-			System.out.println(Arrays.toString(ingresos) );
-			System.out.println("X:"+x);
+			x++;/**//*#Errores*/
+			FlagWin=0;ierr=0;
 			for (int i=0;i<aCaracteres.length;i++){
 				for (int j=0;j<x; j++){
 					if(aCaracteres[i]==ingresos[j]){		//Coincidencia de una letra ingresada
-						Underline=0;Errores--;
+						Underline=0;
 						System.out.print(" "+ingresos[j]);  //Imprime la letra coincidente
+						if(j==(x-1))ierr++;
 						FlagWin++; break;
 					}
 					else Underline++;
 				}
 				if(Underline!=0){
-					System.err.print(Underline+" ->-> "+aCaracteres[i]+" i;"+i);
+					//System.err.print(Underline+" ->-> "+aCaracteres[i]+" i;"+i);
 					System.out.print(" _");
 				}
 			}
+			if(ierr==0)Errores++;
 			System.out.print(" {");
 			//Imprimer finales de linea
 			for (int i=0;i<ingresos.length;i++)
@@ -76,10 +71,11 @@ public class Ahorcado {
 			//Si numero de coincidencias == Numero caracteres palabra
 			if(FlagWin==aCaracteres.length){
 				System.out.print("\n Felicitaciones! Ganaste");
+				Errores=0;
 				break;
 			}
 		}
-		if(x==(aCaracteres.length+ErroresPermitidos)){
+		if(Errores==ErroresPermitidos){
 			System.out.print("\n Perdiste, la palabra era \""+Palabra+"\"");
 		}
 		entrada.close();
